@@ -1,0 +1,30 @@
+name: Windows C Build
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - name: Reposu klonla
+      uses: actions/checkout@v3
+
+    - name: MinGW Kurulumu (GCC)
+      run: choco install mingw -y
+
+    - name: Derleme
+      run: gcc main.c -o main.exe
+
+    - name: Derlenen dosyayı listele
+      run: dir
+
+    - name: Artifact olarak kaydet
+      uses: actions/upload-artifact@v4
+      with:
+        name: main-exe
+        path: main.exe
